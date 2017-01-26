@@ -8,26 +8,26 @@ namespace Testing {
 
     class Binary {
 
-        public long Value;
+        public ulong Value;
 
-        public Binary(long v) {
+        public Binary (ulong v) {
             Value = v;
         }
 
-        public static implicit operator Binary(long value) {
+        public static implicit operator Binary (ulong value) {
             return new Binary(value);
         }
 
         //TODO: make binary addition method.
-        public static Binary operator +(Binary num1, Binary num2) {
-            return Binary.ToBinary(num1.ToInt() + num2.ToInt());
+        public static Binary operator + (Binary num1, Binary num2) {
+            return Binary.ToBinary(num1.ToBase10() + num2.ToBase10());
         }
 
-        public Binary Flip() {
+        public Binary Flip () {
             return null;
         }
 
-        public static Binary ToBinary (int NumToConvert) {
+        public static Binary ToBinary (ulong NumToConvert) {
             int Count = 0;
             String Result = "";
 
@@ -37,14 +37,14 @@ namespace Testing {
                 Result = NumToConvert % 2 + Result;
                 NumToConvert /= 2;
             }
-            return new Binary(Convert.ToInt64(Result));
+            return new Binary(Convert.ToUInt64(Result));
         }
 
-        public int ToInt () {
-            int Result = 0, Count = 0;
+        public ulong ToBase10 () {
+            ulong Result = 0, Count = 0;
 
             foreach (char x in this.ToString().Reverse()) {
-                Result += x.Equals('1') ? Int32.Parse(x.ToString()) * (int)Math.Pow(2, Count) : 0;
+                Result += x.Equals('1') ? UInt64.Parse(x.ToString()) * (ulong)Math.Pow(2, Count) : 0;
                 //if (x != ' ') //uncomment if you want to allow spaces with strings again
                 ++Count;
             }
@@ -52,9 +52,8 @@ namespace Testing {
         }
 
         public override String ToString () {
-            return "" + this.Value;
+            return String.Format("{0}", this.Value);
         }
-
 
     }
 
@@ -65,8 +64,14 @@ namespace Testing {
             Binary y = 100010101;
 
             Console.WriteLine(x);
+            Console.WriteLine(x.ToBase10());
+
             Console.WriteLine(y);
-            Console.WriteLine(x + y);
+            Console.WriteLine(y.ToBase10());
+
+            Binary z = (x + y);
+            Console.WriteLine(z);
+            Console.WriteLine(z.ToBase10());
 
             Console.ReadKey();
         }
